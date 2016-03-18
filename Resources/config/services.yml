@@ -5,11 +5,3 @@ services:
             - @service_container
         tags:
             - { name: kernel.event_subscriber}
-
-    newscoop_publishingplatforms_plugin.configure_menu_listener:
-        class: Newscoop\PublishingPlatformsPluginBundle\EventListener\ConfigureMenuListener
-        tags:
-          - { name: kernel.event_listener, event: newscoop_newscoop.menu_configure, method: onMenuConfigure }
-        arguments:
-            - @translator
-

@@ -1,14 +1,14 @@
 {
     "name": "newscoop/publishingplatforms-plugin-bundle",
-    "description": "PublishingPlatforms plugin for Newscoop",
+    "description": "PublishingPlatforms plugin for Newscoop. Support AMP and FBIA custom tags in Newscoop templates.",
     "keywords": ["Newscoop", "publishingplatforms"],
     "version": "0.0.1",
     "type": "newscoop-plugin",
     "license": "GPL-3.0",
     "authors": [
         {
-            "name": "Your Name",
-            "email": "your.name@domain.com"
+            "name": "Paweł Mikołajczuk",
+            "email": "mikolajczuk.private@gmail.com"
         }
     ],
     "require": {

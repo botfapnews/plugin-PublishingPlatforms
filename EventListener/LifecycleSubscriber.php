@@ -13,9 +13,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class LifecycleSubscriber implements EventSubscriberInterface
 {
     private $container;
-   
+
     protected $em;
- 
+
     protected $scheduler;
 
     protected $cronjobs;
@@ -36,7 +36,7 @@ class LifecycleSubscriber implements EventSubscriberInterface
     {
         $tool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
         $tool->updateSchema($this->getClasses(), true);
-        
+
         // Set default preferences here
 
         // Generate proxies for entities
