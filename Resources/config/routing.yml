@@ -1,0 +1,4 @@
+newscoop_publishing_platforms_plugin:
+    resource: "@NewscoopPublishingPlatformsPluginBundle/Controller"
+    type:     annotation
+    prefix:   /
