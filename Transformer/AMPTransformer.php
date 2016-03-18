@@ -11,6 +11,8 @@ class AMPTransformer
         $content = $this->removeScripts($content);
         $content = $this->transformTwitter($content);
         $content = $this->transformFacebook($content);
+        $content = $this->transformYoutube($content);
+        $content = $this->transformInstagram($content);
 
         return $content;
     }
@@ -162,6 +164,69 @@ class AMPTransformer
             $ampFacebook->setAttribute('data-embed-as', 'video');
 
             $item->parentNode->replaceChild($ampFacebook, $item);
+        }
+
+        return $crawler->html();
+    }
+
+    public function transformYoutube($content)
+    {
+        $document = new \DOMDocument();
+        libxml_use_internal_errors(true);
+        $document->loadHTML($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $iframes = $document->getElementsByTagName('iframe');
+
+        for ($i = $iframes->length - 1; $i >= 0; $i --) {
+            $iframe = $iframes->item($i);
+            if (!preg_match('/^(http:|https:)?\/{2}(www.)?(youtube.com)/', $iframe->getAttribute('src'), $matches)) {
+                continue;
+            }
+
+            if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $iframe->getAttribute('src'), $match)) {
+                $ampYoutube = $document->createElement('amp-youtube');
+                $ampYoutube->setAttribute('data-videoid', $match[1]);
+                $ampYoutube->setAttribute('layout', 'responsive');
+
+                $ampYoutube->setAttribute('width', 480);
+                $ampYoutube->setAttribute('height', 270);
+                $iframe->parentNode->replaceChild($ampYoutube, $iframe);
+            }
+        }
+
+        return $document->saveHtml();
+    }
+
+    public function transformInstagram($content)
+    {
+        $instagramUrlRegex = "/^(http:|https:)?\/{2}(www.)?(instagram.com)\/p\/(.*)\//";
+        $crawler = new \Symfony\Component\DomCrawler\Crawler();
+
+        // fill Crawler with already created document to be able to use LIBXML_* parameters
+        $document = new \DOMDocument();
+        libxml_use_internal_errors(true);
+        $document->loadHTML($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $crawler->addDocument($document);
+
+        // Search for all instagram embeds
+        $embeds = $crawler->filter('blockquote.instagram-media');
+        foreach ($embeds as $item) {
+            $links = $item->getElementsByTagName('a');
+            $mediaId = null;
+            foreach ( $links as $link ) {
+                $href = $link->getAttribute('href');
+                if (preg_match($instagramUrlRegex, $href, $matches)) {
+                    $mediaId = $matches[4];
+                    break;
+                }
+            }
+            $document = $item->ownerDocument;
+            $ampInstagram = $document->createElement('amp-instagram');
+            $ampInstagram->setAttribute('layout', 'responsive');
+            $ampInstagram->setAttribute('width', 400);
+            $ampInstagram->setAttribute('height', 400);
+            $ampInstagram->setAttribute('data-shortcode', $mediaId);
+
+            $item->parentNode->replaceChild($ampInstagram, $item);
         }
 
         return $crawler->html();
