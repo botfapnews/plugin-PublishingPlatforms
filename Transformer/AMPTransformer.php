@@ -14,7 +14,16 @@ class AMPTransformer
         $content = $this->transformYoutube($content);
         $content = $this->transformInstagram($content);
 
-        return $content;
+        $document = new \DOMDocument();
+        $mock = new \DOMDocument();
+        libxml_use_internal_errors(true);
+        $document->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
+        $body = $document->getElementsByTagName('body')->item(0);
+        foreach ($body->childNodes as $child){
+            $mock->appendChild($mock->importNode($child, true));
+        }
+
+        return $mock->saveHtml();
     }
 
     public function removeInlineStyles($content)
@@ -28,7 +37,7 @@ class AMPTransformer
     {
         $document = new \DOMDocument();
         libxml_use_internal_errors(true);
-        $document->loadHTML($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $document->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
         $images = $document->getElementsByTagName('img');
 
         for ($i = $images->length - 1; $i >= 0; $i --) {
@@ -69,7 +78,7 @@ class AMPTransformer
     {
         $document = new \DOMDocument();
         libxml_use_internal_errors(true);
-        $document->loadHTML($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $document->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
         $scripts = $document->getElementsByTagName('script');
         for ($i = $scripts->length - 1; $i >= 0; $i --) {
             $item = $scripts->item($i);
@@ -87,7 +96,7 @@ class AMPTransformer
         // fill Crawler with already created document to be able to use LIBXML_* parameters
         $document = new \DOMDocument();
         libxml_use_internal_errors(true);
-        $document->loadHTML($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $document->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
         $crawler->addDocument($document);
 
         // Search for all twitter embeds
@@ -129,7 +138,7 @@ class AMPTransformer
         // fill Crawler with already created document to be able to use LIBXML_* parameters
         $document = new \DOMDocument();
         libxml_use_internal_errors(true);
-        $document->loadHTML($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $document->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
         $crawler->addDocument($document);
 
         // remove add fb-root
@@ -173,7 +182,7 @@ class AMPTransformer
     {
         $document = new \DOMDocument();
         libxml_use_internal_errors(true);
-        $document->loadHTML($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $document->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
         $iframes = $document->getElementsByTagName('iframe');
 
         for ($i = $iframes->length - 1; $i >= 0; $i --) {
@@ -204,7 +213,7 @@ class AMPTransformer
         // fill Crawler with already created document to be able to use LIBXML_* parameters
         $document = new \DOMDocument();
         libxml_use_internal_errors(true);
-        $document->loadHTML($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $document->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
         $crawler->addDocument($document);
 
         // Search for all instagram embeds

@@ -30,7 +30,7 @@ class PublishingPlatformsController extends Controller
 
         $smarty = $templatesService->getSmarty();
         $smarty->addTemplateDir(__DIR__.'/../Resources/views/default_templates/');
-        $smarty->context()->article = new \MetaArticle($language->getId(), $article->getNumber());
+        $smarty->context()->article = new \MetaArticle($article->getLanguage()->getId(), $article->getNumber());
 
         // Don't render newscoop javascript reads conunter.
         $defaultCollectStatistics = $preferencesService->CollectStatistics;
