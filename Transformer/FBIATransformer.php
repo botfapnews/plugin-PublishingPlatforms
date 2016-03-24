@@ -14,17 +14,18 @@ use Newscoop\PublishingPlatformsPluginBundle\Converter\FacebookConverter;
 use Newscoop\PublishingPlatformsPluginBundle\Converter\YoutubeConverter;
 use Newscoop\PublishingPlatformsPluginBundle\Converter\InstagramConverter;
 
-class AMPTransformer extends AbstractTransformer
+class FBIATransformer extends AbstractTransformer
 {
     public function transform($content)
     {
         $content = parent::removeScripts($content);
+        $content = parent::removeEmptyTags($content);
         $content = parent::removeInlineStyles($content);
-        $content = ImagesConverter::convertToAMP($content);
-        $content = TwitterConverter::convertToAMP($content);
-        $content = FacebookConverter::convertToAMP($content);
-        $content = YoutubeConverter::convertToAMP($content);
-        $content = InstagramConverter::convertToAMP($content);
+        $content = ImagesConverter::convertToFBIA($content);
+        $content = TwitterConverter::convertToFBIA($content);
+        $content = FacebookConverter::convertToFBIA($content);
+        $content = YoutubeConverter::convertToFBIA($content);
+        $content = InstagramConverter::convertToFBIA($content);
 
         $document = parent::loadContentToDOMDocument($content);
         $mock = parent::getDOMDocument();

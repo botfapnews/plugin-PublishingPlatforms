@@ -7,18 +7,18 @@
  */
 
 /**
- * Newscoop/PublishingPlatformsPlugin AMP modifier
+ * Newscoop/PublishingPlatformsPlugin Facebook Instant Articles modifier
  *
  * Type:     modifier
  * Name:     amp
- * Purpose:  Modify content to be valid for AMP syntax
+ * Purpose:  Modify content to be valid for FBIA syntax
  *
  * @param string $content
  */
 
-function smarty_modifier_amp($content)
+function smarty_modifier_fbia($content)
 {
-    $AMPTransformer = new \Newscoop\PublishingPlatformsPluginBundle\Transformer\AMPTransformer();
+    $FBIATransformer = new \Newscoop\PublishingPlatformsPluginBundle\Transformer\FBIATransformer();
 
-    return $AMPTransformer->transform($content);
+    return $FBIATransformer->transform($content);
 }

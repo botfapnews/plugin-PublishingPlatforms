@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package Newscoop\PublishingPlatformsPluginBundle
+ * @author Paweł Mikołajczuk <pawel.mikolajczuk@sourcefabric.org>
+ * @copyright 2016 Sourcefabric z.u. and contributors.
+ * @license http://www.gnu.org/licenses/gpl-3.0.txt
+ */
 
 namespace Newscoop\PublishingPlatformsPluginBundle\Controller;
 
@@ -17,9 +23,12 @@ class PublishingPlatformsController extends Controller
     {
         $em = $this->get('doctrine')->getManager();
         $preferencesService = $this->get('system_preferences_service');
-        $article = $em->getRepository('Newscoop\Entity\Article')->getArticle($articleNumber, $languageCode)->getOneOrNullResult();
-
         $templatesService = $this->get('newscoop.templates.service');
+        $article = $em->getRepository('Newscoop\Entity\Article')->getArticle($articleNumber, $languageCode)->getOneOrNullResult();
+        if (!$article) {
+            return new Response($templatesService->fetchTemplate('404.tpl'), 200, array('Content-Type' => 'text/html'));
+        }
+
         $templatesService->setVector(array(
             'publication' => $request->attributes->get('_newscoop_publication_metadata[alias][publication_id]', null, true),
             'language' => $article->getLanguage()->getId(),

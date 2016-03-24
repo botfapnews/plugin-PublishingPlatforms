@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package Newscoop\PublishingPlatformsPluginBundle
+ * @author Paweł Mikołajczuk <pawel.mikolajczuk@sourcefabric.org>
+ * @copyright 2016 Sourcefabric z.u. and contributors.
+ * @license http://www.gnu.org/licenses/gpl-3.0.txt
+ */
 
 namespace Newscoop\PublishingPlatformsPluginBundle\DependencyInjection;
 

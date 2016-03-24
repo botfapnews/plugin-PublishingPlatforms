@@ -2,14 +2,14 @@
 <html ⚡ lang="{{ $gimme->issue->language->code }}">
   <head>
     <meta charset="utf-8">
-    <title>{{ if $gimme->article->defined }}{{ $gimme->article->name }} | {{ elseif $gimme->section->defined }}{{ $gimme->section->name }} | {{ /if }}{{ $gimme->publication->name }}</title>
+    <title>{{ $gimme->article->name }} | {{ $gimme->section->name }} | {{ $gimme->publication->name }}</title>
     <link rel="canonical" href="http://{{ $gimme->publication->site }}{{ uri }}">
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
     <script type="application/ld+json">
       {
-        "@context": "http://schema.org",
+        "@context": "https://schema.org",
         "@type": "NewsArticle",
-        "headline": "Open-source framework for publishing content",
+        "headline": "{{ $gimme->article->name }}",
         "datePublished": "{{ $gimme->article->publish_date|camp_date_format:"%Y-%m-%d'T'%H:%M:%S'Z'" }}",
         "image": [
           "{{ $gimme->article->image->getImageUrl() }}"
@@ -27,7 +27,7 @@
   <body>
     <h1>{{ $gimme->article->name|html_entity_decode|regex_replace:'/&(.*?)quo;/':'&quot;' }}</h1>
     <div id="content">
-      {{ $gimme->article->full_text|amp }}
+      {{ $gimme->article->full_text|fbia }}
     </div>
   </body>
 </html>
