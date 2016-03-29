@@ -69,10 +69,7 @@ class YoutubeConverter extends AbstractConverter implements ConverterInterface
                 $figure->setAttribute('class', 'op-social');
 
                 $originalYoutubeEmbed = clone $youtubeIframe;
-
-                $iframe = $document->createElement('iframe' );
-                $iframe->appendChild($originalYoutubeEmbed);
-                $figure->appendChild($iframe);
+                $figure->appendChild($originalYoutubeEmbed);
 
                 $youtubeIframe->parentNode->replaceChild($figure, $youtubeIframe);
             }

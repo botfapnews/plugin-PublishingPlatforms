@@ -38,4 +38,20 @@ abstract class AbstractTransformer extends AbstractConverter
 
         return $content;
     }
+
+    public function extractFirstClassElementsFromP($content)
+    {
+        $crawler = new \Symfony\Component\DomCrawler\Crawler();
+        $crawler->addDocument(parent::loadContentToDOMDocument($content));
+
+        // find all first class elements inside p
+        $elements = $crawler->filter('p figure, p img');
+
+        foreach ($elements as $item) {
+            $document = $item->ownerDocument;
+            $item->parentNode->parentNode->replaceChild($item, $item->parentNode);
+        }
+
+        return $crawler->html();
+    }
 }

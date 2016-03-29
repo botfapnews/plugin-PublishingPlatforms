@@ -12,17 +12,10 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class ImagesConverter extends AbstractConverter implements ConverterInterface
 {
-    public static function getElements($content)
+    public static function convertToAMP($content)
     {
         $document = parent::loadContentToDOMDocument($content);
         $images = $document->getElementsByTagName('img');
-
-        return $images;
-    }
-
-    public static function convertToAMP($content)
-    {
-        $images = self::getElements($content);
         if (count($images) == 0) {
             return $content;
         }
@@ -66,7 +59,8 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
 
     public static function convertToFBIA($content)
     {
-        $images = self::getElements($content);
+        $document = parent::loadContentToDOMDocument($content);
+        $images = $document->getElementsByTagName('img');
         if (count($images) == 0) {
             return $content;
         }
@@ -98,7 +92,6 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
     public static function clearCsImage($content)
     {
         $document = parent::loadContentToDOMDocument($content);
-
         $crawler = new Crawler();
         $crawler->addDocument($document);
         $figures = $crawler->filter('.cs_img p figure');
