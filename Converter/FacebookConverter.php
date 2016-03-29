@@ -71,8 +71,7 @@ class FacebookConverter extends AbstractConverter implements ConverterInterface
             return $content;
         }
 
-        $fbJsScriptCode = '(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3"; fjs.parentNode.insertBefore(js, fjs);}(document, \'script\', \'facebook-jssdk\'));';
-
+        $fbJsScriptCode = "(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3\"; fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));";
         foreach ($embeds as $item) {
             $document = $item->ownerDocument;
             $figure = $document->createElement('figure');
@@ -82,10 +81,9 @@ class FacebookConverter extends AbstractConverter implements ConverterInterface
             $fbRoot->setAttribute('id', 'fb-root');
 
             $fbScriptElement = $document->createElement('script', $fbJsScriptCode);
-            $fbScriptElement->setAttribute('type', 'text/javascript');
             $originalFacebookEmbed = clone $item;
 
-            $iframe = $document->createElement('iframe' );
+            $iframe = $document->createElement('iframe');
             $iframe->appendChild($fbRoot);
             $iframe->appendChild($fbScriptElement);
             $iframe->appendChild($originalFacebookEmbed);
