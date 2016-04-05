@@ -10,7 +10,14 @@ namespace Newscoop\PublishingPlatformsPluginBundle\Converter;
 
 class YoutubeConverter extends AbstractConverter implements ConverterInterface
 {
-    public static function getElements($document)
+    /**
+     * Get Yutube iframes from html
+     *
+     * @param \DOMDocument $document
+     *
+     * @return array
+     */
+    public static function getElements(\DOMDocument $document)
     {
         $iframes = $document->getElementsByTagName('iframe');
         $youtubeIframes = array();
@@ -27,6 +34,9 @@ class YoutubeConverter extends AbstractConverter implements ConverterInterface
         return $youtubeIframes;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function convertToAMP($content)
     {
         $document = parent::loadContentToDOMDocument($content);
@@ -52,6 +62,9 @@ class YoutubeConverter extends AbstractConverter implements ConverterInterface
         return $document->saveHtml();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function convertToFBIA($content)
     {
         $document = parent::loadContentToDOMDocument($content);

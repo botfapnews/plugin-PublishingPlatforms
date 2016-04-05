@@ -12,6 +12,9 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class FacebookConverter extends AbstractConverter implements ConverterInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public static function convertToAMP($content)
     {
         $crawler = new \Symfony\Component\DomCrawler\Crawler();
@@ -54,6 +57,9 @@ class FacebookConverter extends AbstractConverter implements ConverterInterface
         return $crawler->html();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function convertToFBIA($content)
     {
         $crawler = new \Symfony\Component\DomCrawler\Crawler();

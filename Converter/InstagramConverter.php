@@ -12,7 +12,9 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class InstagramConverter extends AbstractConverter implements ConverterInterface
 {
-
+    /**
+     * {@inheritdoc}
+     */
     public static function convertToAMP($content)
     {
         $instagramUrlRegex = "/^(http:|https:)?\/{2}(www.)?(instagram.com)\/p\/(.*)\//";
@@ -46,6 +48,9 @@ class InstagramConverter extends AbstractConverter implements ConverterInterface
         return $crawler->html();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function convertToFBIA($content)
     {
         $instagramUrlRegex = "/^(http:|https:)?\/{2}(www.)?(instagram.com)\/p\/(.*)\//";

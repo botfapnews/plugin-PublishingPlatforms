@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 class PublishingPlatformsController extends Controller
 {
     /**
-     * @Route("/amp/{languageCode}/{issueUrl}/{sectionUrl}/{articleNumber}/{articleSeo}.htm")
+     * @Route("/amp/{languageCode}/{issueUrl}/{sectionUrl}/{articleNumber}/{articleSeo}", name="newscoop_publishingplatforms_amp_article")
      */
     public function ampAction(Request $request, $languageCode, $issueUrl, $sectionUrl, $articleNumber, $articleSeo = null)
     {

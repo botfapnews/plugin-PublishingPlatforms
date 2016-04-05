@@ -12,7 +12,9 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class TwitterConverter extends AbstractConverter implements ConverterInterface
 {
-
+    /**
+     * {@inheritdoc}
+     */
     public static function convertToAMP($content)
     {
         $twitterUrlRegex = "/^https?:\/\/twitter\.com\/(?:\#!\/)?(\w+)\/status(es)?\/(\d+)$/";
@@ -58,6 +60,9 @@ class TwitterConverter extends AbstractConverter implements ConverterInterface
         return $crawler->html();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function convertToFBIA($content)
     {
         $twitterUrlRegex = "/^https?:\/\/twitter\.com\/(?:\#!\/)?(\w+)\/status(es)?\/(\d+)$/";

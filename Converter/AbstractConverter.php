@@ -10,6 +10,13 @@ namespace Newscoop\PublishingPlatformsPluginBundle\Converter;
 
 abstract class AbstractConverter
 {
+    /**
+     * Get DOMDocument object filled with provided html string
+     *
+     * @param string $content
+     *
+     * @return \DOMDocument
+     */
     public static function loadContentToDOMDocument($content)
     {
         $document = self::getDOMDocument();
@@ -18,6 +25,11 @@ abstract class AbstractConverter
         return $document;
     }
 
+    /**
+     * Get preconfigured DOMDocument object
+     *
+     * @return \DOMDocument
+     */
     public static function getDOMDocument()
     {
         $document = new \DOMDocument('1.0', 'UTF-8');

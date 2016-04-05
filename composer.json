@@ -1,14 +1,14 @@
 {
     "name": "newscoop/publishingplatforms-plugin-bundle",
-    "description": "PublishingPlatforms plugin for Newscoop. Support AMP and FBIA custom tags in Newscoop templates.",
-    "keywords": ["Newscoop", "publishingplatforms"],
-    "version": "0.1.2",
+    "description": "PublishingPlatforms plugin for Newscoop. Converts newscoop article body elements into FBIA and AMP tags.",
+    "keywords": ["Newscoop", "publishingplatforms", "Facebook Instant Articles", "AMP", "FBIA", "AMP-HTML"],
+    "version": "0.1.3",
     "type": "newscoop-plugin",
     "license": "GPL-3.0",
     "authors": [
         {
             "name": "Paweł‚ Mikołajczuk",
-            "email": "mikolajczuk.private@gmail.com"
+            "email": "pawel.mikolajczuk@sourcefabric.org"
         }
     ],
     "require": {

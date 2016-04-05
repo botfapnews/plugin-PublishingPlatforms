@@ -12,6 +12,9 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class ImagesConverter extends AbstractConverter implements ConverterInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public static function convertToAMP($content)
     {
         $document = parent::loadContentToDOMDocument($content);
@@ -57,6 +60,9 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
         return $document->saveHtml();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function convertToFBIA($content)
     {
         $document = parent::loadContentToDOMDocument($content);
