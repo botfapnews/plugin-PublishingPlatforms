@@ -45,11 +45,11 @@ abstract class AbstractTransformer extends AbstractConverter
         $crawler->addDocument(parent::loadContentToDOMDocument($content));
 
         // find all first class elements inside p
-        $elements = $crawler->filter('p figure, p img');
-
+        $elements = $crawler->filter('p figure');
         foreach ($elements as $item) {
-            $document = $item->ownerDocument;
-            $item->parentNode->parentNode->replaceChild($item, $item->parentNode);
+            if(isset($item->parentNode)) {
+                $item->parentNode->parentNode->appendChild($item);
+            }
         }
 
         return $crawler->html();

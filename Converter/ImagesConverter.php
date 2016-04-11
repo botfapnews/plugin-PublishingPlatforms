@@ -30,13 +30,13 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
 
             //parse parameters from Newscoop image src
             preg_match_all('/([^?&=#]+)=([^&#]*)/', $src, $m);
-            $data = array_combine( $m[1], $m[2]);
             $document = $img->ownerDocument;
             $ampImg = $document->createElement('amp-img');
             $ampImg->setAttribute('alt', $alt);
             $ampImg->setAttribute('src', $src);
 
             try {
+                $data = array_combine($m[1], $m[2]);
                 $metaImage = new \MetaImage($data['ImageId']);
                 if (isset($data['ImageWidth']) && isset($data['ImageHeight'])) {
                     $width = $data['ImageWidth'];
