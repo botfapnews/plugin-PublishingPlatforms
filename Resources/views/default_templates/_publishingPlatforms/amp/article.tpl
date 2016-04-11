@@ -26,7 +26,7 @@
   <body>
     <h1>{{ $gimme->article->name|html_entity_decode|regex_replace:'/&(.*?)quo;/':'&quot;' }}</h1>
     <div id="content">
-      {{ $gimme->article->full_text|fbia }}
+      {{ $gimme->article->full_text|amp }}
     </div>
   </body>
 </html>
