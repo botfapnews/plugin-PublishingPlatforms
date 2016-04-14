@@ -18,6 +18,10 @@ class FBIATransformer extends AbstractTransformer
 {
     public function transform($content)
     {
+        if (strlen($content) == 0) {
+            return $content;
+        }
+
         $content = parent::removeScripts($content);
         $content = parent::removeEmptyTags($content);
         $content = parent::removeInlineStyles($content);
