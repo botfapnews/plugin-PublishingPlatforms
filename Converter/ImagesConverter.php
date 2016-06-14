@@ -27,6 +27,7 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
             $img = $images->item($i);
             $src = $img->getAttribute('src');
             $alt = $img->getAttribute('alt');
+            $data = array();
 
             //parse parameters from Newscoop image src
             preg_match_all('/([^?&=#]+)=([^&#]*)/', $src, $m);
@@ -36,8 +37,9 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
             $ampImg->setAttribute('src', $src);
 
             try {
-                $data = array_combine($m[1], $m[2]);
-                $metaImage = new \MetaImage($data['ImageId']);
+                if (count($m) > 1 && count($m[1]) > 0 && (count($m[1]) === count($m[2]))) {
+                    $data = array_combine($m[1], $m[2]);
+                }
                 if (isset($data['ImageWidth']) && isset($data['ImageHeight'])) {
                     $width = $data['ImageWidth'];
                     $height = $data['ImageHeight'];
@@ -45,6 +47,7 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
                     $width = $img->getAttribute('width');
                     $height = $img->getAttribute('height');
                 } else {
+                    $metaImage = new \MetaImage($data['ImageId']);
                     $size = @getimagesize(APPLICATION_PATH . '/../' . $metaImage->filerpath);
                     $width = $size[0];
                     $height = $size[1];
@@ -73,6 +76,7 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
 
         for ($i = $images->length - 1; $i >= 0; $i --) {
             $img = $images->item($i);
+            $alt = $img->getAttribute('alt');
             $document = $img->ownerDocument;
             $figure = $document->createElement('figure');
 
@@ -80,7 +84,19 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
             // set orginal image as content of figure tag
             $figure->appendChild($originalImg);
 
-            $img->parentNode->replaceChild($figure, $img);
+            //create figcation if alt is not empty
+            if (strlen($alt) > 0) {
+                $figcaption = $document->createElement('figcaption');
+                $figcaptionH1 = $document->createElement('h1', $alt);
+                $figcaption->appendChild($figcaptionH1);
+                $figure->appendChild($figcaption);
+            }
+
+            if ($img->parentNode->tagName == 'figure') {
+                $img->parentNode->parentNode->replaceChild($figure, $img->parentNode);
+            } else {
+                $img->parentNode->replaceChild($figure, $img);
+            }
         }
 
         $content = self::clearCsImage($document->saveHtml());
@@ -100,15 +116,27 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
         $document = parent::loadContentToDOMDocument($content);
         $crawler = new Crawler();
         $crawler->addDocument($document);
-        $figures = $crawler->filter('.cs_img p figure');
-        if (count($figures) == 0) {
-            return $content;
-        }
 
-        foreach ($figures as $figure) {
-            $figure->parentNode->parentNode->parentNode->replaceChild($figure, $figure->parentNode->parentNode);
+        $figures = $crawler->filter('figure');
+        if (count($figures) > 0) {
+            foreach ($figures as $figure) {
+                self::moveFigureToTop($figure);
+            }
         }
 
         return $crawler->html();
+    }
+
+    public static function moveFigureToTop($node)
+    {
+        $orginalElement = $node;
+        while (
+            $node->parentNode != null &&
+            $node->parentNode instanceOf \DOMElement &&
+            $node->parentNode->tagName != 'html'
+        ){
+            $node->parentNode->appendChild($orginalElement);
+            $node = $node->parentNode;
+        }
     }
 }
