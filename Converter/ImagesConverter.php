@@ -27,6 +27,7 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
             $img = $images->item($i);
             $src = $img->getAttribute('src');
             $alt = $img->getAttribute('alt');
+            $data = array();
 
             //parse parameters from Newscoop image src
             preg_match_all('/([^?&=#]+)=([^&#]*)/', $src, $m);
@@ -36,8 +37,9 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
             $ampImg->setAttribute('src', $src);
 
             try {
-                $data = array_combine($m[1], $m[2]);
-                $metaImage = new \MetaImage($data['ImageId']);
+                if (count($m) > 1 && count($m[1]) > 0 && (count($m[1]) === count($m[2]))) {
+                    $data = array_combine($m[1], $m[2]);
+                }
                 if (isset($data['ImageWidth']) && isset($data['ImageHeight'])) {
                     $width = $data['ImageWidth'];
                     $height = $data['ImageHeight'];
@@ -45,6 +47,7 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
                     $width = $img->getAttribute('width');
                     $height = $img->getAttribute('height');
                 } else {
+                    $metaImage = new \MetaImage($data['ImageId']);
                     $size = @getimagesize(APPLICATION_PATH . '/../' . $metaImage->filerpath);
                     $width = $size[0];
                     $height = $size[1];
