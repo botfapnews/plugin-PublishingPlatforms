@@ -34,10 +34,21 @@ Generate link to AMP version:
 ```
 
 
-
 ***Facebook Instant Articles***
 
 ```{{ $gimme->article->full_text|fbia }}```
+
+**Change template file used to rendering of images inside article content**
+
+Before rendering article content field use this function: ```{{ set_content_image_template name="editor_image_fbia.tpl" }}```
+
+Example of ```editor_image_fbia.tpl``` can be found in this plugin: ```Resources/views/default_templates/fbia/editor_image_fbia.tpl```
+
+
+``` set_content_image_template ``` will tell for Newscoop to use custom template file for images inside article content.
+
+At end of file reset your changes with ```{{ reset_content_image_template }}```
+
 
 
 ### Commands

@@ -76,9 +76,19 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
 
         for ($i = $images->length - 1; $i >= 0; $i --) {
             $img = $images->item($i);
+
+            if ($img->getAttribute('data-process') == 'false') {
+                // skip image processing - mark it for moving up
+                if ($img->parentNode->parentNode->tagName !== 'body') {
+                    $img->parentNode->setAttribute('data-converted-from-img', 'true');
+                }
+                continue;
+            }
+
             $alt = $img->getAttribute('alt');
             $document = $img->ownerDocument;
             $figure = $document->createElement('figure');
+            $figure->setAttribute('data-converted-from-img', 'true');
 
             $originalImg = clone $img;
             // set orginal image as content of figure tag
@@ -86,9 +96,7 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
 
             //create figcation if alt is not empty
             if (strlen($alt) > 0) {
-                $figcaption = $document->createElement('figcaption');
-                $figcaptionH1 = $document->createElement('h1', $alt);
-                $figcaption->appendChild($figcaptionH1);
+                $figcaption = $document->createElement('figcaption', $alt);
                 $figure->appendChild($figcaption);
             }
 
@@ -120,7 +128,9 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
         $figures = $crawler->filter('figure');
         if (count($figures) > 0) {
             foreach ($figures as $figure) {
-                self::moveFigureToTop($figure);
+                if ($figure->getAttribute('data-converted-from-img') === 'true') {
+                    self::moveFigureToTop($figure);
+                }
             }
         }
 
@@ -135,7 +145,8 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
             $node->parentNode instanceOf \DOMElement &&
             $node->parentNode->tagName != 'html'
         ){
-            $node->parentNode->appendChild($orginalElement);
+
+            $node->parentNode->parentNode->replaceChild($orginalElement, $node->parentNode);
             $node = $node->parentNode;
         }
     }
