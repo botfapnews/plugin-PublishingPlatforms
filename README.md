@@ -4,7 +4,41 @@ Plugin provides support for Google AMP and Facebook Instant Articles in Newscoop
 
 This plugin is compatible with Newscoop 4.4.7 and higher.
 
-### Usage
+Installation
+-------------
+Installation is a quick process:
+
+
+1. How to install this plugin?
+2. That's all!
+
+### Step 1: How to install this plugin?
+Run the command:
+``` bash
+$ php application/console plugins:install "newscoop/publishingplatforms-plugin-bundle"
+$ php application/console assets:install public/
+```
+Plugin will be installed to your project's `newscoop/plugins/Newscoop` directory.
+
+### Step 2: That's all!
+Go to Newscoop Admin panel and then open `Plugins` tab. The Plugin will show up there. You can now use this plugin.
+
+
+**Note:**
+
+To update this plugin run the command:
+``` bash
+$ php application/console plugins:update "newscoop/publishingplatforms-plugin-bundle"
+$ php application/console assets:install public/
+```
+
+To remove this plugin run the command:
+``` bash
+$ php application/console plugins:remove "newscoop/publishingplatforms-plugin-bundle"
+```
+
+Documentation
+-------------
 
 ***Google AMP***
 
@@ -40,21 +74,13 @@ Generate link to AMP version:
 ```{{ $gimme->article->full_text|fbia }}```
 
 
-### Commands
-#### Install the plugin
+License
+-------
 
-``` bash
-$ php application/console plugins:install "newscoop/publishingplatforms-plugin-bundle" --env=prod
-```
+This bundle is under the GNU General Public License v3. See the complete license in the bundle:
 
-#### Update the plugin
+    LICENSE
 
-``` bash
-$ php application/console plugins:update "newscoop/publishingplatforms-plugin-bundle" --env=prod
-```
-
-#### Remove the plugin
-
-``` bash
-$ php application/console plugins:remove "newscoop/publishingplatforms-plugin-bundle" --env=prod
-```
+About
+-------
+This Bundle is a [Sourcefabric z.ú.](https://github.com/sourcefabric) initiative.
