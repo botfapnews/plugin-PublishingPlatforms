@@ -30,7 +30,6 @@ class FBIATransformer extends AbstractTransformer
         $content = FacebookConverter::convertToFBIA($content);
         $content = YoutubeConverter::convertToFBIA($content);
         $content = InstagramConverter::convertToFBIA($content);
-        $content = parent::extractFirstClassElementsFromP($content);
         $content = parent::removeEmptyTags($content);
 
         $document = parent::loadContentToDOMDocument($content);

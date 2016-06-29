@@ -2,7 +2,7 @@
     "name": "newscoop/publishingplatforms-plugin-bundle",
     "description": "PublishingPlatforms plugin for Newscoop. Converts newscoop article body elements into FBIA and AMP tags.",
     "keywords": ["Newscoop", "publishingplatforms", "Facebook Instant Articles", "AMP", "FBIA", "AMP-HTML"],
-    "version": "0.1.4",
+    "version": "0.1.5",
     "type": "newscoop-plugin",
     "license": "GPL-3.0",
     "authors": [
