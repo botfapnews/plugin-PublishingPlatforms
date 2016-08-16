@@ -128,8 +128,12 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
         $figures = $crawler->filter('figure');
         if (count($figures) > 0) {
             foreach ($figures as $figure) {
-                if ($figure->hasAttribute('data-converted-from-img') && $figure->getAttribute('data-converted-from-img') === 'true') {
-                    self::moveFigureToTop($figure);
+                if (
+                    !empty($figure) &&
+                    $figure->hasAttribute('data-converted-from-img') &&
+                    $figure->getAttribute('data-converted-from-img') === 'true'
+                ) {
+                    //self::moveFigureToTop($figure);
                 }
             }
         }
@@ -145,9 +149,10 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
             $node->parentNode instanceOf \DOMElement &&
             $node->parentNode->tagName != 'html'
         ){
-
             $node->parentNode->parentNode->replaceChild($orginalElement, $node->parentNode);
-            $node = $node->parentNode;
+            if(!empty($element->parentNode->tagName)) {
+                $node = $node->parentNode;
+            }
         }
     }
 }
