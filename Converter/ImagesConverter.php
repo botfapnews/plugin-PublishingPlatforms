@@ -128,7 +128,7 @@ class ImagesConverter extends AbstractConverter implements ConverterInterface
         $figures = $crawler->filter('figure');
         if (count($figures) > 0) {
             foreach ($figures as $figure) {
-                if ($figure->getAttribute('data-converted-from-img') === 'true') {
+                if ($figure->hasAttribute('data-converted-from-img') && $figure->getAttribute('data-converted-from-img') === 'true') {
                     self::moveFigureToTop($figure);
                 }
             }
